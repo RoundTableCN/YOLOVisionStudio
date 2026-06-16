@@ -1,0 +1,21 @@
+{
+  "name": "yolovision-studio",
+  "version": "1.0.0",
+  "description": "Local YOLOv8 Visual Training & Recognition Platform",
+  "main": "electron/main.js",
+  "scripts": {
+    "dev:frontend": "cd frontend && npx vite --port 5173",
+    "build:frontend": "cd frontend && npx vite build",
+    "build:electron": "npx esbuild electron/main.ts electron/preload.ts electron/python-manager.ts --bundle --platform=node --outdir=electron/dist --external:electron --format=cjs",
+    "dev:electron": "npm run build:electron && npx electron .",
+    "dev": "npm run build:electron && concurrently \"npm run dev:frontend\" \"npx wait-on http://localhost:5173 && npx electron .\"",
+    "build": "npm run build:frontend && npm run build:electron"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0",
+    "electron": "^33.2.0",
+    "esbuild": "^0.24.0",
+    "typescript": "^5.7.0",
+    "wait-on": "^8.0.0"
+  }
+}
